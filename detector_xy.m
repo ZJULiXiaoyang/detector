@@ -3,6 +3,7 @@
 %%% image I,and we set sd=0.7*si
 %%% si --- the the variance of the Gaussian window
 %%% alpha --- two kinds of evaulation(=0.04)
+%%% feature --- interest points 2xN
 function [feature] = detector_xy(rgbImage,DepthImage,si)
 % VL_HARRIS  Harris corner strength
 %  H = VL_HARRIS(I,SI) computes the Harris corner strength of the image I
@@ -142,10 +143,6 @@ for i=1:num
         index=index+1;
     end
 end
-
-imshow(rgbImage);
-hold on;
-vl_plotframe(feature);
 
 end
 
