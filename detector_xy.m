@@ -77,6 +77,7 @@ function [feature] = detector_xy(rgbImage,DepthImage,si)
 
 sd=0.7*si;
 I=double(rgb2gray(rgbImage));
+% I=imadjust(I);
 I=vl_imsmooth( I, sd );%%%gaussian blur
 [Ix,Iy] = gradient(I) ;
 
@@ -111,7 +112,7 @@ DH22 = vl_imsmooth(DIy.*DIy, si) ;
 
 
 alpha = 0.04 ;
-belt=1;
+belt=0.8;
 dt=H11.*H22 - H12.^2;    %%% dt is the determinant
 tr=H11+H22;     %%%tr is the trace
 Ddt=DH11.*DH22 - DH12.^2; 

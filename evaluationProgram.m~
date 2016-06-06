@@ -2,26 +2,63 @@
 close all,clear all,clc;
 
 path='/home/hali/data/1/rotate/';
-rgbFile1=strcat(path,'rgb_1.png');
-rgbFile2=strcat(path,'rgb_2.png');
-depthFile1=strcat(path,'depth_1.png');
-depthFile2=strcat(path,'depth_2.png');
+num1=1;
+num2=4;
+method=1;
+rgbFile1=strcat(path,'rgb_',num2str(num1),'.png');
+rgbFile2=strcat(path,'rgb_',num2str(num2),'.png');
+depthFile1=strcat(path,'depth_',num2str(num1),'.png');
+depthFile2=strcat(path,'depth_',num2str(num2),'.png');
+[ R,T ] = loadRTmatrix( path,num1,num2,method );
 
 image1=imread(rgbFile1);
 image2=imread(rgbFile2);
 depth1=imread(depthFile1);
 depth2=imread(depthFile2);
 
-[feature1] = detector_xy(image1,depth1,1);
+%%%MultiscaleHarris
+[feature21]=detector2d(image1,'MultiscaleHarris',1000,20,1,3);
+[feature22]=detector2d(image2,'MultiscaleHarris',1000,20,1,4);
+[repeatility1]=calculateRepeatability( feature21,feature22,R,T,depth1,depth2 );
+
+%%%MultiscaleHessian
+[feature31]=detector2d(image1,'MultiscaleHessian',1000,20,1,3);
+[feature32]=detector2d(image2,'MultiscaleHessian',1000,20,1,4);
+[repeatility2]=calculateRepeatability( feature31,feature32,R,T,depth1,depth2 );
+
+%%%HarrisLaplace
+[feature41]=detector2d(image1,'HarrisLaplace',1000,20,1,3);
+[feature42]=detector2d(image2,'HarrisLaplace',1000,20,1,4);
+[repeatility2]=calculateRepeatability( feature41,feature42,R,T,depth1,depth2 );
+
+%%%HessianLaplace
+[feature51]=detector2d(image1,'HessianLaplace',1000,20,1,3);
+[feature52]=detector2d(image2,'HessianLaplace',1000,20,1,4);
+[repeatility2]=calculateRepeatability( feature51,feature52,R,T,depth1,depth2 );
+
+%%%Hessian
+[feature61]=detector2d(image1,'Hessian',1000,20,1,3);
+[feature62]=detector2d(image2,'Hessian',1000,20,1,4);
+[repeatility2]=calculateRepeatability( feature61,feature62,R,T,depth1,depth2 );
+
+%%%DoG
+[feature71]=detector2d(image1,'DoG',1000,20,1,3);
+[feature72]=detector2d(image2,'DoG',1000,20,1,4);
+[repeatility2]=calculateRepeatability( feature71,feature72,R,T,depth1,depth2 );
+
+
+
+[feature11] = detector_xy(image1,depth1,1);
+[feature12] = detector_xy(image2,depth2,1);
 figure(1)
 imshow(image1);
 hold on;
-vl_plotframe(feature1);
-
-[feature2] = detector_xy(image2,depth2,1);
+vl_plotframe(feature11);
 figure(2)
 imshow(image2);
 hold on;
-vl_plotframe(feature2);
+vl_plotframe(feature12);
+[repeatility]=calculateRepeatability( feature11,feature12,R,T,depth1,depth2 );
 
-[repeatility]=calculateRepeatability( feature1,feature2,R,T,depth1,depth2 );
+
+

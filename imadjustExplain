@@ -1,0 +1,19 @@
+For input image, say f, of class uint8:
+Function IMADJUST does the folllowing things
+1.Normalizaion: im2double(f), that is , dividing all the entries in f by 255.
+2.Gamma Correction is done before linear mapping
+   For example:
+   (f,[0 1], [0 0.5], 2) will raise all the entries to the power 2 and then
+   dividing all the entries by 2 (half).
+3.Convert back to the original image class
+   im2uint8()
+uint8 [-->double [0 1]-->gamma correction-->linear mapping-->uint8]
+where the things done by IMADJUST is expressed in [].
+
+For class double, the input image values must be in [0 1],
+otherwise, the values less than 0 map to 0 and the values higher than 1 map to 1
+then do gamma correction and linear mapping.
+
+^^---- Just like that ----^^
+^^---- Best regards ----^^
+By the way I'm from Taiwan. 
