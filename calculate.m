@@ -26,12 +26,12 @@ for i=1:numa
         y21=R(2,1)*x2+R(2,2)*y2+R(2,3)*z2+T(2);
         z21=R(3,1)*x2+R(3,2)*y2+R(3,3)*z2+T(3);
         
-%         u21=x21*focal/z21+CX;
-%         v21=y21*focal/z21+CY;
+        u21=x21*focal/z21+CX;
+        v21=y21*focal/z21+CY;
         
         distance=[x1-x21,y1-y21,z1-z21];
-        
-        if norm(distance)<0.05
+%         distance=[u21-u1,v21-v1];
+        if norm(distance)<0.01
             corrpnum=corrpnum+1;
             break;
         end

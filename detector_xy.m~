@@ -78,9 +78,9 @@ function [feature] = detector_xy(rgbImage,DepthImage,si,belt)
 sd=0.7*si;
 I=double(rgb2gray(rgbImage));
 % I=imadjust(I);
-% [~,ps]=mapminmax(I);
-% ps.ymin=0;
-% [I,~]=mapminmax(I,ps);
+[~,ps]=mapminmax(I);
+ps.ymin=0;
+[I,~]=mapminmax(I,ps);
 I=vl_imsmooth( I, sd );%%%gaussian blur
 [Ix,Iy] = gradient(I) ;
 
